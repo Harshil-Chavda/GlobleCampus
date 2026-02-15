@@ -1,0 +1,320 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--card-border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: var(--header-height);
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logo span {
+  color: var(--foreground);
+}
+
+.links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+
+.link {
+  font-weight: 500;
+  color: var(--foreground);
+  transition: color 0.2s ease;
+  position: relative;
+}
+
+.link:hover {
+  color: var(--primary);
+}
+
+.link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background-color: var(--primary);
+  transition: width 0.3s ease;
+}
+
+.link:hover::after {
+  width: 100%;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.button {
+  padding: 0.5rem 1.25rem;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.buttonPrimary {
+  background: var(--primary);
+  color: white;
+  border: none;
+}
+
+.buttonPrimary:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2);
+}
+
+.buttonSecondary {
+  background: transparent;
+  color: var(--foreground);
+  border: 1px solid var(--card-border);
+}
+
+.buttonSecondary:hover {
+  background: var(--card-bg);
+  border-color: var(--foreground);
+}
+
+/* Token Badge */
+.tokenBadge {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(251, 191, 36, 0.1);
+  border: 1px solid rgba(251, 191, 36, 0.2);
+  padding: 0.35rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  color: #fbbf24;
+  font-weight: 700;
+}
+
+/* Avatar Menu */
+.avatarMenu {
+  position: relative;
+}
+
+.avatarCircle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.avatarCircle:hover {
+  transform: scale(1.1);
+}
+
+.dropdown {
+  display: block;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 0.5rem;
+  background: rgba(15, 23, 42, 0.98);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-md);
+  padding: 0.4rem 0;
+  min-width: 150px;
+  z-index: 200;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  animation: notifIn 0.2s ease;
+}
+
+.dropdownItem {
+  display: block;
+  width: 100%;
+  padding: 0.6rem 1rem;
+  color: #cbd5e1;
+  font-size: 0.85rem;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  text-decoration: none;
+  font-family: inherit;
+  transition: background 0.15s;
+}
+
+.dropdownItem:hover {
+  background: rgba(79, 70, 229, 0.1);
+  color: var(--foreground);
+}
+
+@media (max-width: 768px) {
+  .links {
+    display: none;
+  }
+  .tokenBadge {
+    display: none;
+  }
+}
+
+/* ===== Notification Bell ===== */
+.notifWrapper {
+  position: relative;
+}
+
+.notifBtn {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--card-border);
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.1rem;
+  position: relative;
+  transition: all 0.2s;
+}
+
+.notifBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.05);
+}
+
+.notifBadge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 10px;
+  background: #ef4444;
+  color: white;
+  font-size: 0.65rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  animation: badgePop 0.3s ease;
+}
+
+@keyframes badgePop {
+  from { transform: scale(0); }
+  to { transform: scale(1); }
+}
+
+.notifDropdown {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  width: 340px;
+  max-height: 420px;
+  background: rgba(15, 23, 42, 0.98);
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+  z-index: 300;
+  overflow: hidden;
+  animation: notifIn 0.2s ease;
+}
+
+@keyframes notifIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.notifHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--card-border);
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--foreground);
+}
+
+.notifCount {
+  background: rgba(79, 70, 229, 0.15);
+  color: var(--primary);
+  padding: 0.1rem 0.55rem;
+  border-radius: 10px;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.notifList {
+  overflow-y: auto;
+  max-height: 350px;
+}
+
+.notifItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  transition: background 0.15s;
+}
+
+.notifItem:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.notifItem:last-child {
+  border-bottom: none;
+}
+
+.notifIcon {
+  font-size: 1.15rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.notifContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.notifText {
+  color: #cbd5e1;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.notifTime {
+  color: #475569;
+  font-size: 0.7rem;
+  margin-top: 0.2rem;
+}
+
+.notifEmpty {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  color: #475569;
+  font-size: 0.85rem;
+}

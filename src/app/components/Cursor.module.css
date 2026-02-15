@@ -1,0 +1,56 @@
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  background-color: white; /* Will invert due to mix-blend-mode */
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 20002;
+  transform: translate3d(-100px, -100px, 0); /* Initial off-screen */
+  mix-blend-mode: difference;
+  transition: width 0.3s, height 0.3s, background-color 0.3s;
+  /* Center the transform origin so coordinates map to center */
+  margin-top: -5px;
+  margin-left: -5px;
+}
+
+.follower {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 20001;
+  transform: translate3d(-100px, -100px, 0);
+  transition: transform 0.1s ease-out, width 0.3s, height 0.3s, background-color 0.3s, border-color 0.3s;
+  mix-blend-mode: difference;
+  margin-top: -20px;
+  margin-left: -20px;
+}
+
+/* Hover State - Magnetic Expansion */
+.cursor.hovered {
+  width: 0; 
+  height: 0; /* Dot disappears into the follower */
+  opacity: 0;
+}
+
+.follower.hovered {
+  width: 60px;
+  height: 60px;
+  background-color: rgba(255, 255, 255, 1); /* Solid white, inverts to black over white bg */
+  border-color: transparent;
+  mix-blend-mode: difference;
+}
+
+/* Hide on mobile/touch devices */
+@media (hover: none) {
+  .cursor, .follower {
+    display: none;
+  }
+}
