@@ -9,19 +9,32 @@ export default function DashboardLayout({ children }) {
   const router = useRouter();
 
   useEffect(() => {
-    const getUser = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
+    let mounted = true;
 
-      if (!session) {
-        setLoading(false); // Unblock UI before redirecting
-        router.push("/login");
-        return;
+    const getUser = async () => {
+      try {
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
+
+        if (mounted) {
+          if (!session) {
+            router.push("/login");
+          } else {
+            setLoading(false);
+          }
+        }
+      } catch (error) {
+        console.error("Error verifying access:", error);
+        if (mounted) setLoading(false);
       }
-      setLoading(false);
     };
+
     getUser();
+
+    return () => {
+      mounted = false;
+    };
   }, [router]);
 
   if (loading) {
@@ -35,4 +48,3 @@ export default function DashboardLayout({ children }) {
 
   return <div className={styles.pageContainer}>{children}</div>;
 }
-
