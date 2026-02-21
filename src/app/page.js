@@ -281,50 +281,54 @@ export default function Home() {
           the higher you rank!
         </p>
 
-        {leaders.length === 0 ? (
-          <div className={styles.emptyLeaderboard}>
-            <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>🏅</div>
-            <p style={{ fontSize: "1.1rem", color: "#94a3b8" }}>
-              Be the first to upload and claim the #1 spot!
-            </p>
-            <Link
-              href="/signup"
-              className={styles.primaryBtn}
-              style={{ marginTop: "1rem", display: "inline-block" }}
-            >
-              Get Started
-            </Link>
-          </div>
-        ) : (
-          <table className={styles.leaderboardTable}>
-            <thead>
-              <tr>
-                <th>Rank</th>
-                <th>Contributor</th>
-                <th>College</th>
-                <th>🪙 GC-Tokens</th>
-              </tr>
-            </thead>
-            <tbody>
-              {leaders.map((l, i) => (
-                <tr key={i}>
-                  <td>
-                    <span className={`${styles.rankBadge} ${getRankClass(i)}`}>
-                      {getRankIcon(i)}
-                    </span>
-                  </td>
-                  <td className={styles.leaderName}>
-                    {l.first_name} {l.last_name}
-                  </td>
-                  <td className={styles.leaderCollege}>{l.college || "—"}</td>
-                  <td className={styles.leaderTokens}>
-                    🪙 {l.gc_token_balance || 0}
-                  </td>
+        <div className={styles.leaderboardWrapper}>
+          {leaders.length === 0 ? (
+            <div className={styles.emptyLeaderboard}>
+              <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>🏅</div>
+              <p style={{ fontSize: "1.1rem", color: "#94a3b8" }}>
+                Be the first to upload and claim the #1 spot!
+              </p>
+              <Link
+                href="/signup"
+                className={styles.primaryBtn}
+                style={{ marginTop: "1rem", display: "inline-block" }}
+              >
+                Get Started
+              </Link>
+            </div>
+          ) : (
+            <table className={styles.leaderboardTable}>
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th>Contributor</th>
+                  <th>College</th>
+                  <th>🪙 GC-Tokens</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
+              </thead>
+              <tbody>
+                {leaders.map((l, i) => (
+                  <tr key={i}>
+                    <td>
+                      <span
+                        className={`${styles.rankBadge} ${getRankClass(i)}`}
+                      >
+                        {getRankIcon(i)}
+                      </span>
+                    </td>
+                    <td className={styles.leaderName}>
+                      {l.first_name} {l.last_name}
+                    </td>
+                    <td className={styles.leaderCollege}>{l.college || "—"}</td>
+                    <td className={styles.leaderTokens}>
+                      🪙 {l.gc_token_balance || 0}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
       </section>
 
       {/* FAQ Section */}

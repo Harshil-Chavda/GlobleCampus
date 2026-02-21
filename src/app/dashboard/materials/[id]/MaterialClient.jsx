@@ -101,34 +101,33 @@ export default function MaterialClient({ initialMaterial }) {
           >
             ← Back to Materials
           </button>
-          <h1 className={styles.pageTitle} style={{ fontSize: "2.5rem" }}>
-            {material.title}
-          </h1>
+          <h1 className={styles.pageTitle}>{material.title}</h1>
           <div
             style={{
               display: "flex",
               gap: "1rem",
               alignItems: "center",
               marginTop: "0.5rem",
+              flexWrap: "wrap",
             }}
           >
             <span
               className={styles.tag}
               style={{
                 ...getTagStyle(material.material_type),
-                fontSize: "1rem",
-                padding: "0.4rem 1rem",
+                fontSize: "0.9rem",
+                padding: "0.3rem 0.8rem",
               }}
             >
               {getIcon(material.material_type)} {material.material_type}
             </span>
-            <span style={{ color: "#64748b", fontSize: "0.9rem" }}>
+            <span style={{ color: "#64748b", fontSize: "0.85rem" }}>
               Added on {new Date(material.created_at).toLocaleDateString()}
             </span>
           </div>
         </div>
 
-        <div style={{ display: "flex", gap: "1rem" }}>
+        <div className={styles.actions}>
           <a
             href={material.file_url}
             target="_blank"
@@ -152,10 +151,7 @@ export default function MaterialClient({ initialMaterial }) {
         </div>
       </motion.div>
 
-      <div
-        className={styles.mainGrid}
-        style={{ gridTemplateColumns: "2fr 1fr" }}
-      >
+      <div className={`${styles.mainGrid} ${styles.detailGrid}`}>
         {/* Left Column: Preview */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
@@ -163,36 +159,14 @@ export default function MaterialClient({ initialMaterial }) {
           transition={{ delay: 0.1 }}
           style={{ display: "flex", flexDirection: "column", gap: "2rem" }}
         >
-          <div
-            className={styles.section}
-            style={{
-              minHeight: "500px",
-              padding: 0,
-              overflow: "hidden",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              background: "rgba(0,0,0,0.3)",
-            }}
-          >
+          <div className={styles.previewSection}>
             {isPDF ? (
               <iframe
                 src={`${material.file_url}#toolbar=0`}
-                width="100%"
-                height="600px"
-                style={{ border: "none" }}
                 title="PDF Preview"
               />
             ) : isImage ? (
-              <img
-                src={material.file_url}
-                alt={material.title}
-                style={{
-                  maxWidth: "100%",
-                  maxHeight: "600px",
-                  objectFit: "contain",
-                }}
-              />
+              <img src={material.file_url} alt={material.title} />
             ) : (
               <div style={{ textAlign: "center", padding: "3rem" }}>
                 <div style={{ fontSize: "4rem", marginBottom: "1rem" }}>📄</div>
@@ -233,7 +207,7 @@ export default function MaterialClient({ initialMaterial }) {
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.2 }}
-          style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}
+          className={styles.infoSection}
         >
           <div
             className={styles.statCard}
@@ -352,27 +326,12 @@ export default function MaterialClient({ initialMaterial }) {
 
 function DetailItem({ label, value, icon }) {
   return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        paddingBottom: "0.8rem",
-        borderBottom: "1px solid rgba(255,255,255,0.05)",
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "0.6rem",
-          color: "#94a3b8",
-        }}
-      >
+    <div className={styles.detailItem}>
+      <div className={styles.detailItemLabel}>
         <span>{icon}</span>
         <span>{label}</span>
       </div>
-      <div style={{ color: "white", fontWeight: "500" }}>{value || "N/A"}</div>
+      <div className={styles.detailItemValue}>{value || "—"}</div>
     </div>
   );
 }

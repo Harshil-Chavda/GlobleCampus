@@ -4,6 +4,7 @@ import styles from "./Navbar.module.css";
 import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import { supabase } from "../../lib/supabaseClient";
+import { Menu, X } from "lucide-react";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -13,9 +14,15 @@ export default function Navbar() {
   const [notifications, setNotifications] = useState([]);
   const [showNotif, setShowNotif] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const notifRef = useRef(null);
   const menuRef = useRef(null);
   const notifFetchedRef = useRef(false);
+
+  // Close mobile menu on route change
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [pathname]);
 
   // Hide navbar on admin pages (admin has its own sidebar)
   if (pathname?.startsWith("/admin")) return null;
@@ -192,7 +199,9 @@ export default function Navbar() {
         Globle<span>Campus</span>
       </Link>
 
-      <ul className={styles.links}>
+      <ul
+        className={`${styles.links} ${isMobileMenuOpen ? styles.mobileActive : ""}`}
+      >
         {user ? (
           <>
             <li>
@@ -382,7 +391,15 @@ export default function Navbar() {
           </>
         )}
       </div>
+
+      {/* Mobile Menu Toggle */}
+      <button
+        className={styles.mobileToggle}
+        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        aria-label="Toggle Menu"
+      >
+        {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+      </button>
     </nav>
   );
 }
-

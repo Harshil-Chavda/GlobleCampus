@@ -196,12 +196,79 @@
   color: var(--foreground);
 }
 
-@media (max-width: 768px) {
+.mobileToggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--foreground);
+  cursor: pointer;
+  padding: 0.5rem;
+  z-index: 101;
+  transition: transform 0.2s ease;
+}
+
+.mobileToggle:hover {
+  color: var(--primary);
+  transform: scale(1.1);
+}
+
+@media (max-width: 992px) {
+  .navbar {
+    padding: 1rem 1.5rem;
+  }
+
   .links {
     display: none;
+    position: absolute;
+    top: var(--header-height);
+    left: 0;
+    width: 100%;
+    background: rgba(15, 23, 42, 0.98);
+    backdrop-filter: blur(20px);
+    flex-direction: column;
+    padding: 2rem;
+    gap: 1.5rem;
+    border-bottom: 1px solid var(--card-border);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    z-index: 99;
+    animation: slideDown 0.3s ease forwards;
   }
+
+  .links.mobileActive {
+    display: flex;
+  }
+
+  .mobileToggle {
+    display: flex;
+    order: 3;
+  }
+
+  .actions {
+    gap: 0.5rem;
+  }
+
   .tokenBadge {
     display: none;
+  }
+
+  .logo {
+    font-size: 1.25rem;
+  }
+
+  .button {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -258,6 +325,7 @@
   top: calc(100% + 0.5rem);
   right: 0;
   width: 340px;
+  max-width: calc(100vw - 2rem);
   max-height: 420px;
   background: rgba(15, 23, 42, 0.98);
   border: 1px solid var(--card-border);
