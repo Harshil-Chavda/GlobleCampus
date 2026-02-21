@@ -264,7 +264,7 @@ export default function Navbar() {
             {/* Premium Pro VIP Badge */}
             {profile?.gc_token_balance >= 50 && (
               <Link
-                href="/dashboard/support"
+                href="/dashboard/premium-pro"
                 className={styles.vipBadge}
                 title="Premium Pro Member"
               >
