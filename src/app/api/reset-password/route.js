@@ -9,6 +9,17 @@ export async function POST(request) {
       return Response.json({ error: "Email is required" }, { status: 400 });
     }
 
+    const smtpEmail = process.env.SMTP_EMAIL;
+    const smtpPass = process.env.SMTP_PASSWORD;
+
+    if (!smtpEmail || !smtpPass) {
+      console.error("❌ SMTP Credentials missing in environment variables");
+      return Response.json(
+        { error: "Server misconfiguration: Missing email credentials" },
+        { status: 500 }
+      );
+    }
+
     // Use service role key to update user password
     const supabaseAdmin = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL,

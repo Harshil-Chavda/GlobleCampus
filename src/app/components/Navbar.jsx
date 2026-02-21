@@ -27,13 +27,21 @@ export default function Navbar() {
       } = await supabase.auth.getSession();
       if (session) {
         setUser(session.user);
-        // Fetch profile only — notifications are lazy-loaded on bell click
-        const { data } = await supabase
+
+        // Fetch profile with error handling
+        const { data, error } = await supabase
           .from("profiles")
           .select("first_name, last_name, gc_token_balance, is_admin")
           .eq("id", session.user.id)
           .single();
-        if (data) setProfile(data);
+
+        if (data) {
+          setProfile(data);
+        } else {
+          console.error("Navbar: Profile not found or error:", error);
+          // Fallback: minimal profile object to avoid crashes
+          setProfile({ gc_token_balance: 0, first_name: "", last_name: "" });
+        }
       }
     };
     getUser();
@@ -252,6 +260,17 @@ export default function Navbar() {
             <div className={styles.tokenBadge}>
               🪙 <span>{profile?.gc_token_balance || 0}</span>
             </div>
+
+            {/* Premium Pro VIP Badge */}
+            {profile?.gc_token_balance >= 50 && (
+              <Link
+                href="/dashboard/support"
+                className={styles.vipBadge}
+                title="Premium Pro Member"
+              >
+                👑 VIP
+              </Link>
+            )}
 
             {/* Notification Bell */}
             <div className={styles.notifWrapper} ref={notifRef}>

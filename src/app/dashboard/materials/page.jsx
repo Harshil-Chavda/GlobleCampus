@@ -19,7 +19,7 @@ export default function MaterialsPage() {
   const [filterType, setFilterType] = useState("All");
   const [filterCourse, setFilterCourse] = useState("All");
   const [filterUniversity, setFilterUniversity] = useState("All");
-  const [tab, setTab] = useState("approved"); // 'approved' or 'my-uploads'
+  const [tab, setTab] = useState("approved"); 
 
   // Pagination
   const [page, setPage] = useState(1);
@@ -35,7 +35,11 @@ export default function MaterialsPage() {
       const {
         data: { session },
       } = await supabase.auth.getSession();
-      if (session) setUser(session.user);
+      if (session) {
+        setUser(session.user);
+        // Default to 'my-uploads' if they have just logged in, or keep 'approved'
+        // For now, let's keep 'approved' as default but make it easy to switch
+      }
     };
     checkSession();
   }, []);
@@ -43,22 +47,23 @@ export default function MaterialsPage() {
   useEffect(() => {
     fetchMaterials();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, tab, filterType, filterCourse, filterUniversity, search]); // Re-fetch on any filter change
+  }, [page, tab, filterType, filterCourse, filterUniversity, search, user]); // Added user to dependency
 
   const fetchMaterials = async () => {
     setLoading(true);
     try {
-      let query = supabase.from("materials").select("*", { count: "exact" }); // Get total count for pagination
+      let query = supabase.from("materials").select("*", { count: "exact" }); 
 
       // 1. Tab Filter
       if (tab === "approved") {
         query = query.eq("status", "approved");
-      } else if (tab === "my-uploads" && user) {
+      } else if (tab === "my-uploads") {
+        if (!user) {
+             setMaterials([]);
+             setLoading(false);
+             return;
+        }
         query = query.eq("user_id", user.id);
-      } else if (tab === "my-uploads" && !user) {
-        setMaterials([]);
-        setLoading(false);
-        return;
       }
 
       // 2. Search Filter (Client-side search was easy, server-side needs 'ilike')
