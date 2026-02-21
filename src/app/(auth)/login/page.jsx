@@ -17,9 +17,12 @@ export default function Login() {
     setLoading(true);
     setError(null);
 
+    const formattedEmail = email.trim();
+    const formattedPassword = password.trim();
+
     const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
+      email: formattedEmail,
+      password: formattedPassword,
     });
 
     if (error) {
@@ -101,4 +104,3 @@ export default function Login() {
     </>
   );
 }
-

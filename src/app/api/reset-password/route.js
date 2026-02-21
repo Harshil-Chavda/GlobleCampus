@@ -9,14 +9,14 @@ export async function POST(request) {
       return Response.json({ error: "Email is required" }, { status: 400 });
     }
 
-    const smtpEmail = process.env.SMTP_EMAIL;
-    const smtpPass = process.env.SMTP_PASSWORD;
+    const smtpEmail = process.env.SMTP_EMAIL?.trim();
+    const smtpPass = process.env.SMTP_PASSWORD?.trim();
 
     if (!smtpEmail || !smtpPass) {
-      console.error("❌ SMTP Credentials missing in environment variables");
+      console.error("❌ SMTP Credentials missing or empty in environment");
       return Response.json(
         { error: "Server misconfiguration: Missing email credentials" },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -73,10 +73,12 @@ export async function POST(request) {
 
     // Send new password via email
     const transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true, // true for 465, false for other ports
       auth: {
-        user: process.env.SMTP_EMAIL,
-        pass: process.env.SMTP_PASSWORD,
+        user: smtpEmail,
+        pass: smtpPass,
       },
     });
 
