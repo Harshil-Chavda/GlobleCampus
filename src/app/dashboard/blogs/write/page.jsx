@@ -194,32 +194,38 @@ export default function WriteBlogPage() {
 
     setLoading(true);
 
-    const authorName = profile
-      ? `${profile.first_name || ""} ${profile.last_name || ""}`.trim()
-      : user.email;
+    try {
+      const authorName = profile
+        ? `${profile.first_name || ""} ${profile.last_name || ""}`.trim()
+        : user.email;
 
-    const { error } = await supabase.from("blogs").insert([
-      {
-        user_id: user.id,
-        author_name: authorName,
-        title: form.title,
-        excerpt: form.excerpt,
-        content: content,
-        category: form.category,
-        tags: form.tags
-          .split(",")
-          .map((t) => t.trim())
-          .filter(Boolean),
-        status: "pending",
-      },
-    ]);
+      const { error } = await supabase.from("blogs").insert([
+        {
+          user_id: user.id,
+          author_name: authorName,
+          title: form.title,
+          excerpt: form.excerpt,
+          content: content,
+          category: form.category,
+          tags: form.tags
+            .split(",")
+            .map((t) => t.trim())
+            .filter(Boolean),
+          status: "pending",
+        },
+      ]);
 
-    if (!error) {
+      if (error) {
+        throw error;
+      }
+
       alert("✅ Blog submitted! It will be visible after admin approval.");
       router.push("/dashboard/blogs");
-    } else {
-      console.error("Blog error:", error);
-      alert("❌ Failed to submit blog: " + error.message);
+    } catch (error) {
+      console.error("Blog Submission Error:", error);
+      alert("❌ Failed to submit blog: " + (error.message || "Unknown error"));
+    } finally {
+      // ALWAYS reset loading state regardless of success or failure
       setLoading(false);
     }
   };
@@ -602,4 +608,3 @@ export default function WriteBlogPage() {
     </div>
   );
 }
-
