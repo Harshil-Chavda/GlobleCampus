@@ -7,7 +7,7 @@ const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 export async function generateMetadata({ params }) {
-  const { id } = params;
+  const { id } = await params;
 
   const { data: blog } = await supabase
     .from("blogs")
@@ -38,7 +38,7 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function BlogPage({ params }) {
-  const { id } = params;
+  const { id } = await params;
 
   // Fetch data
   const { data: blog, error } = await supabase

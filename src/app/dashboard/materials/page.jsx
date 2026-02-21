@@ -19,12 +19,14 @@ export default function MaterialsPage() {
   const [filterType, setFilterType] = useState("All");
   const [filterCourse, setFilterCourse] = useState("All");
   const [filterUniversity, setFilterUniversity] = useState("All");
-  const [tab, setTab] = useState("approved"); 
+  const [tab, setTab] = useState("approved");
 
   // Pagination
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const ITEMS_PER_PAGE = 15;
+
+  const [sessionLoaded, setSessionLoaded] = useState(false);
 
   /* -------------------------------------------------------------------------- */
   /*                               Data Fetching                                */
@@ -37,31 +39,40 @@ export default function MaterialsPage() {
       } = await supabase.auth.getSession();
       if (session) {
         setUser(session.user);
-        // Default to 'my-uploads' if they have just logged in, or keep 'approved'
-        // For now, let's keep 'approved' as default but make it easy to switch
       }
+      setSessionLoaded(true);
     };
     checkSession();
   }, []);
 
   useEffect(() => {
-    fetchMaterials();
+    if (sessionLoaded) {
+      fetchMaterials();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, tab, filterType, filterCourse, filterUniversity, search, user]); // Added user to dependency
+  }, [
+    page,
+    tab,
+    filterType,
+    filterCourse,
+    filterUniversity,
+    search,
+    sessionLoaded,
+  ]);
 
   const fetchMaterials = async () => {
     setLoading(true);
     try {
-      let query = supabase.from("materials").select("*", { count: "exact" }); 
+      let query = supabase.from("materials").select("*", { count: "exact" });
 
       // 1. Tab Filter
       if (tab === "approved") {
         query = query.eq("status", "approved");
       } else if (tab === "my-uploads") {
         if (!user) {
-             setMaterials([]);
-             setLoading(false);
-             return;
+          setMaterials([]);
+          setLoading(false);
+          return;
         }
         query = query.eq("user_id", user.id);
       }
@@ -552,4 +563,3 @@ export default function MaterialsPage() {
     </div>
   );
 }
-

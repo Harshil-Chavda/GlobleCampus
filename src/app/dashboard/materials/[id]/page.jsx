@@ -7,7 +7,7 @@ const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 export async function generateMetadata({ params }) {
-  const { id } = params;
+  const { id } = await params;
 
   const { data: material } = await supabase
     .from("materials")
@@ -36,7 +36,7 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function MaterialPage({ params }) {
-  const { id } = params;
+  const { id } = await params;
 
   // Fetch data
   const { data: material, error } = await supabase

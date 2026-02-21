@@ -24,6 +24,8 @@ export default function BlogsPage() {
   const [totalPages, setTotalPages] = useState(1);
   const ITEMS_PER_PAGE = 15;
 
+  const [sessionLoaded, setSessionLoaded] = useState(false);
+
   /* -------------------------------------------------------------------------- */
   /*                               Data Fetching                                */
   /* -------------------------------------------------------------------------- */
@@ -34,14 +36,15 @@ export default function BlogsPage() {
         data: { session },
       } = await supabase.auth.getSession();
       if (session) setUser(session.user);
+      setSessionLoaded(true);
     };
     checkSession();
   }, []);
 
   useEffect(() => {
-    fetchBlogs();
+    if (sessionLoaded) fetchBlogs();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, tab, category, search]);
+  }, [page, tab, category, search, sessionLoaded]);
 
   const fetchBlogs = async () => {
     setLoading(true);
@@ -391,4 +394,3 @@ export default function BlogsPage() {
     </div>
   );
 }
-
