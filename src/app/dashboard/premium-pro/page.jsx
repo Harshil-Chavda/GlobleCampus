@@ -31,6 +31,7 @@ export default function PremiumProPage() {
         data: { session },
       } = await supabase.auth.getSession();
       if (!session) {
+        setLoading(false); // Fix: unblock loading state
         router.push("/login");
         return;
       }

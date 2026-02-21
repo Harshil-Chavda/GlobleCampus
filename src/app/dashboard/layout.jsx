@@ -13,7 +13,9 @@ export default function DashboardLayout({ children }) {
       const {
         data: { session },
       } = await supabase.auth.getSession();
+
       if (!session) {
+        setLoading(false); // Unblock UI before redirecting
         router.push("/login");
         return;
       }
