@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { supabase } from "@/lib/supabaseClient";
+import { supabase } from "../../../../lib/supabaseClient";
 import styles from "../../Dashboard.module.css";
 import { motion } from "framer-motion";
 
@@ -611,3 +611,4 @@ export default function UploadMaterial() {
     </div>
   );
 }
+

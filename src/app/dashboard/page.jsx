@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabaseClient";
+import { supabase } from "../../lib/supabaseClient";
 
 export default function DashboardHome() {
   const [profile, setProfile] = useState(null);
@@ -393,3 +393,4 @@ export default function DashboardHome() {
     </motion.div>
   );
 }
+

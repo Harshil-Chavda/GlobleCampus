@@ -42,15 +42,21 @@ import Footer from "./components/Footer";
 import Background from "./components/Background";
 import ClientExtras from "./components/ClientExtras";
 import GoogleAnalytics from "../components/GoogleAnalytics";
+import PwaRegister from "./components/PwaRegister";
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#0f172a" />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable}`}
         suppressHydrationWarning
       >
         <GoogleAnalytics />
+        <PwaRegister />
         <Background />
         <ClientExtras />
         <Navbar />

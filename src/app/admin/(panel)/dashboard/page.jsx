@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { supabase } from "@/lib/supabaseClient";
+import { supabase } from "../../../../lib/supabaseClient";
 import styles from "../../Admin.module.css";
 import { motion } from "framer-motion";
 
@@ -375,3 +375,4 @@ function AnimatedCounter({ value }) {
 
   return <>{display.toLocaleString()}</>;
 }
+

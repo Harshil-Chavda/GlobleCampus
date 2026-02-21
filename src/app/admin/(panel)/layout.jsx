@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
-import { supabase } from "@/lib/supabaseClient";
+import { supabase } from "../../../lib/supabaseClient";
 import styles from "../Admin.module.css";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -146,3 +146,4 @@ export default function AdminLayout({ children }) {
     </div>
   );
 }
+

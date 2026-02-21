@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { supabase } from "@/lib/supabaseClient";
+import { supabase } from "../../lib/supabaseClient";
 import styles from "./Dashboard.module.css";
 
 export default function DashboardLayout({ children }) {
@@ -35,3 +35,4 @@ export default function DashboardLayout({ children }) {
 
   return <div className={styles.pageContainer}>{children}</div>;
 }
+

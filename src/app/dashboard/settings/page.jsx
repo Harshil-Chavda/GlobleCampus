@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { supabase } from "@/lib/supabaseClient";
+import { supabase } from "../../../lib/supabaseClient";
 import styles from "./Settings.module.css";
 
 export default function SettingsPage() {
@@ -461,3 +461,4 @@ export default function SettingsPage() {
     </div>
   );
 }
+

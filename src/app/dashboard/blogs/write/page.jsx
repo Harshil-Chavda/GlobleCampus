@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { supabase } from "@/lib/supabaseClient";
+import { supabase } from "../../../../lib/supabaseClient";
 import styles from "./BlogWrite.module.css";
 
 export default function WriteBlogPage() {
@@ -602,3 +602,4 @@ export default function WriteBlogPage() {
     </div>
   );
 }
+

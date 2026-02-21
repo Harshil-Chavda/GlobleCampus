@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { supabase } from "@/lib/supabaseClient";
+import { supabase } from "../../../lib/supabaseClient";
 import styles from "./Marketplace.module.css";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -236,3 +236,4 @@ export default function MarketplacePage() {
     </div>
   );
 }
+

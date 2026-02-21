@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { supabase } from "@/lib/supabaseClient";
+import { supabase } from "../../../../lib/supabaseClient";
 import styles from "./VideoUpload.module.css";
 import Link from "next/link";
 
@@ -217,3 +217,4 @@ export default function VideoUploadPage() {
     </div>
   );
 }
+

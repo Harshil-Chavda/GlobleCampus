@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { supabase } from "@/lib/supabaseClient";
+import { supabase } from "../../../lib/supabaseClient";
 import { useRouter } from "next/navigation";
 import styles from "./PremiumPro.module.css";
 
@@ -402,3 +402,4 @@ export default function PremiumProPage() {
     </div>
   );
 }
+

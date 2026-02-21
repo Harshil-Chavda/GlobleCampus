@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { supabase } from "@/lib/supabaseClient";
+import { supabase } from "../../../../lib/supabaseClient";
 import styles from "../../Admin.module.css";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -382,3 +382,4 @@ function StatusBadge({ status }) {
     </span>
   );
 }
+

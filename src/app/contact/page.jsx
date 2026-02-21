@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { supabase } from "@/lib/supabaseClient";
+import { supabase } from "../../lib/supabaseClient";
 import styles from "./Contact.module.css";
 import { motion } from "framer-motion";
 import { Mail, MapPin, Send, MessageSquare } from "lucide-react";
@@ -219,3 +219,4 @@ export default function ContactPage() {
     </div>
   );
 }
+

@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { supabase } from "@/lib/supabaseClient";
+import { supabase } from "../../../lib/supabaseClient";
 import styles from "../Auth.module.css";
 import Link from "next/link";
 
@@ -357,3 +357,4 @@ export default function Signup() {
     </div>
   );
 }
+

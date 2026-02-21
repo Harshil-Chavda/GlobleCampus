@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { supabase } from "@/lib/supabaseClient";
+import { supabase } from "../../../../lib/supabaseClient";
 import styles from "../Marketplace.module.css";
 
 export default function SellItemPage() {
@@ -280,3 +280,4 @@ export default function SellItemPage() {
     </div>
   );
 }
+

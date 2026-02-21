@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { supabase } from "@/lib/supabaseClient";
+import { supabase } from "../../../lib/supabaseClient";
 import styles from "../Dashboard.module.css";
 import { motion } from "framer-motion";
 import Pagination from "../../components/Pagination";
@@ -552,3 +552,4 @@ export default function MaterialsPage() {
     </div>
   );
 }
+
