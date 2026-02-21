@@ -22,7 +22,10 @@ export default function PremiumProPage() {
     urgency: "normal",
   });
 
+  const [mounted, setMounted] = useState(false);
+
   useEffect(() => {
+    setMounted(true);
     const init = async () => {
       const {
         data: { session },
@@ -51,7 +54,7 @@ export default function PremiumProPage() {
       setLoading(false);
     };
     init();
-  }, []);
+  }, [router]);
 
   const balance = profile?.gc_token_balance || 0;
   const isPremium = balance >= 50;
@@ -138,7 +141,7 @@ export default function PremiumProPage() {
     }
   };
 
-  if (loading) {
+  if (!mounted || loading) {
     return (
       <div className={styles.loadingScreen}>
         <div className={styles.spinner}></div>
