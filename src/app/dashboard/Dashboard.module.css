@@ -37,6 +37,7 @@
     letter-spacing: 0.5px;
     background: linear-gradient(90deg, #fbbf24, #f59e0b);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     animation: pulse 1.5s infinite;
   }
