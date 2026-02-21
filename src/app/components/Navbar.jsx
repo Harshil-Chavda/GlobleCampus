@@ -21,36 +21,40 @@ export default function Navbar() {
   if (pathname?.startsWith("/admin")) return null;
 
   useEffect(() => {
+    const fetchProfileData = async (userId) => {
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("first_name, last_name, gc_token_balance, is_admin")
+        .eq("id", userId)
+        .single();
+
+      if (data) {
+        setProfile(data);
+      } else {
+        console.error("Navbar: Profile not found or error:", error);
+        setProfile({ gc_token_balance: 0, first_name: "", last_name: "" });
+      }
+    };
+
     const getUser = async () => {
       const {
         data: { session },
       } = await supabase.auth.getSession();
       if (session) {
         setUser(session.user);
-
-        // Fetch profile with error handling
-        const { data, error } = await supabase
-          .from("profiles")
-          .select("first_name, last_name, gc_token_balance, is_admin")
-          .eq("id", session.user.id)
-          .single();
-
-        if (data) {
-          setProfile(data);
-        } else {
-          console.error("Navbar: Profile not found or error:", error);
-          // Fallback: minimal profile object to avoid crashes
-          setProfile({ gc_token_balance: 0, first_name: "", last_name: "" });
-        }
+        await fetchProfileData(session.user.id);
       }
     };
     getUser();
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (session) setUser(session.user);
-      else {
+    } = supabase.auth.onAuthStateChange(async (_event, session) => {
+      if (session) {
+        setUser(session.user);
+        // FETCH PROFILE ON AUTH STATE CHANGE TO FIX LOGIN/LOGOUT BUG
+        await fetchProfileData(session.user.id);
+      } else {
         setUser(null);
         setProfile(null);
         setNotifications([]);
