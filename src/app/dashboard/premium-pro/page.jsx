@@ -66,7 +66,7 @@ export default function PremiumProPage() {
 
     const { error } = await supabase.from("support_queries").insert([
       {
-        user_id: user.id,
+        user_id: user?.id,
         user_email: profile?.email,
         user_name:
           `${profile?.first_name || ""} ${profile?.last_name || ""}`.trim(),
@@ -80,6 +80,27 @@ export default function PremiumProPage() {
     ]);
 
     if (!error) {
+      // Send Email Notification
+      try {
+        await fetch("/api/premium-query", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            user_id: user?.id,
+            user_email: profile?.email,
+            user_name:
+              `${profile?.first_name || ""} ${profile?.last_name || ""}`.trim(),
+            subject: form.subject,
+            course: form.course,
+            topic: form.topic,
+            urgency: form.urgency,
+            description: form.description,
+          }),
+        });
+      } catch (err) {
+        console.error("Failed to send premium email", err);
+      }
+
       setSuccess(true);
       setShowForm(false);
       setForm({
@@ -94,7 +115,7 @@ export default function PremiumProPage() {
       const { data: q } = await supabase
         .from("support_queries")
         .select("*")
-        .eq("user_id", user.id)
+        .eq("user_id", user?.id)
         .order("created_at", { ascending: false });
       if (q) setQueries(q);
 
@@ -248,8 +269,9 @@ export default function PremiumProPage() {
           <form onSubmit={handleSubmit}>
             <div className={styles.formGrid}>
               <div className={styles.field}>
-                <label>Subject *</label>
+                <label htmlFor="premium-subject">Subject *</label>
                 <input
+                  id="premium-subject"
                   type="text"
                   required
                   placeholder="e.g. Data Structures"
@@ -260,8 +282,9 @@ export default function PremiumProPage() {
                 />
               </div>
               <div className={styles.field}>
-                <label>Course</label>
+                <label htmlFor="premium-course">Course</label>
                 <input
+                  id="premium-course"
                   type="text"
                   placeholder="e.g. B.Tech CSE"
                   value={form.course}
@@ -269,8 +292,9 @@ export default function PremiumProPage() {
                 />
               </div>
               <div className={styles.field}>
-                <label>Topic *</label>
+                <label htmlFor="premium-topic">Topic *</label>
                 <input
+                  id="premium-topic"
                   type="text"
                   required
                   placeholder="e.g. Binary Trees"
@@ -279,8 +303,9 @@ export default function PremiumProPage() {
                 />
               </div>
               <div className={styles.field}>
-                <label>Urgency</label>
+                <label htmlFor="premium-urgency">Urgency</label>
                 <select
+                  id="premium-urgency"
                   value={form.urgency}
                   onChange={(e) =>
                     setForm({ ...form, urgency: e.target.value })
@@ -294,8 +319,9 @@ export default function PremiumProPage() {
             </div>
 
             <div className={styles.field} style={{ marginTop: "1rem" }}>
-              <label>Description *</label>
+              <label htmlFor="premium-description">Description *</label>
               <textarea
+                id="premium-description"
                 required
                 rows={5}
                 placeholder="Describe what you need help with in detail. The more specific you are, the faster we can help..."
@@ -334,16 +360,16 @@ export default function PremiumProPage() {
           </h3>
           <div className={styles.queryList}>
             {queries.map((q) => {
-              const status = getStatusStyle(q.status);
+              const status = getStatusStyle(q?.status || "pending");
               return (
-                <div key={q.id} className={styles.queryCard}>
+                <div key={q?.id || Math.random()} className={styles.queryCard}>
                   <div className={styles.queryTop}>
                     <div>
                       <h4 className={styles.querySubject}>
-                        {q.subject} — {q.topic}
+                        {q?.subject} — {q?.topic}
                       </h4>
                       <span className={styles.queryDate}>
-                        {formatDate(q.created_at)}
+                        {formatDate(q?.created_at || new Date())}
                       </span>
                     </div>
                     <span
