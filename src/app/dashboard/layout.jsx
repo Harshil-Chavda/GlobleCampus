@@ -26,7 +26,7 @@ export default function DashboardLayout({ children }) {
     return (
       <div className={styles.loadingScreen}>
         <div className={styles.spinner}></div>
-        Loading...
+        <span className={styles.loadingText}>Verifying Access...</span>
       </div>
     );
   }
